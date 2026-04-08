@@ -102,7 +102,7 @@ jobs:
       - name: Generate coverage
         run: cargo tarpaulin --all-features --out Xml --timeout 300
       - name: Upload coverage
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           files: ./cobertura.xml
           token: ${{ secrets.CODECOV_TOKEN }}
