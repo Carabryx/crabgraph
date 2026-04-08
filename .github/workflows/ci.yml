@@ -106,6 +106,7 @@ jobs:
         with:
           files: ./cobertura.xml
           token: ${{ secrets.CODECOV_TOKEN }}
+          slug: ${{ github.repository }}
           fail_ci_if_error: true
           verbose: true
 
