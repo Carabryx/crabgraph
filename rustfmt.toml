@@ -1,48 +1,26 @@
-# CrabGraph Rustfmt Configuration
+# DotenvPP — rustfmt (stable `cargo fmt` compatible)
+# Run: cargo fmt --all
 
-# Edition
 edition = "2021"
 
-# Formatting
+# Primary line length.
 max_width = 100
+# Break method / builder chains sooner (sub-limit of max_width).
+chain_width = 80
+
+# "Off" = stricter wrapping at max_width (fewer very long lines than "Default").
+use_small_heuristics = "Off"
+
 hard_tabs = false
 tab_spaces = 4
 newline_style = "Auto"
 
-# Imports
-imports_granularity = "Crate"
-group_imports = "StdExternalCrate"
-
-# Function calls
-use_small_heuristics = "Default"
-fn_call_width = 80
-fn_single_line = false
-
-# Chains
-chain_width = 80
-
-# Comments
-comment_width = 100
-wrap_comments = true
-normalize_comments = true
-normalize_doc_attributes = true
-
-# Attributes
-reorder_impl_items = false
-
-# Match
-match_block_trailing_comma = false
-match_arm_blocks = true
-match_arm_leading_pipes = "Never"
-
-# Spacing
-spaces_around_ranges = false
-type_punctuation_density = "Wide"
-
-# Misc
 reorder_imports = true
 reorder_modules = true
-remove_nested_parens = true
-format_code_in_doc_comments = true
-format_macro_matchers = true
-format_macro_bodies = true
+
+# --- Nightly rustfmt only (ignored on stable; use `cargo +nightly fmt --all`) ---
+# imports_granularity = "Module"
+# group_imports = "StdExternalCrate"
+# wrap_comments = true
+# comment_width = 80
+# format_code_in_doc_comments = true
