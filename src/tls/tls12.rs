@@ -134,10 +134,8 @@ pub static TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256: &Tls12CipherSuite = &Tls
 // ============================================================================
 
 /// ECDSA signature schemes for TLS 1.2.
-pub static TLS12_ECDSA_SCHEMES: [SignatureScheme; 2] = [
-    SignatureScheme::ECDSA_NISTP384_SHA384,
-    SignatureScheme::ECDSA_NISTP256_SHA256,
-];
+pub static TLS12_ECDSA_SCHEMES: [SignatureScheme; 2] =
+    [SignatureScheme::ECDSA_NISTP384_SHA384, SignatureScheme::ECDSA_NISTP256_SHA256];
 
 /// RSA signature schemes for TLS 1.2.
 pub static TLS12_RSA_SCHEMES: [SignatureScheme; 6] = [

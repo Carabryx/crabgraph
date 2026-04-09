@@ -199,7 +199,9 @@ impl P384KeyPair {
     /// ```
     pub fn generate() -> CrabResult<Self> {
         let secret = SecretKey::random(&mut OsRng);
-        Ok(Self { secret })
+        Ok(Self {
+            secret,
+        })
     }
 
     /// Creates a keypair from raw secret key bytes (48 bytes).
@@ -213,7 +215,9 @@ impl P384KeyPair {
         }
         let secret = SecretKey::from_slice(bytes)
             .map_err(|e| CrabError::key_error(format!("Invalid P-384 secret key: {}", e)))?;
-        Ok(Self { secret })
+        Ok(Self {
+            secret,
+        })
     }
 
     /// Returns the secret key bytes.

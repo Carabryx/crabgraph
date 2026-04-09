@@ -101,7 +101,10 @@ impl VersionedKey {
         if version == 0 {
             return Err(CrabError::invalid_input("Key version must be >= 1"));
         }
-        Ok(Self { version, key })
+        Ok(Self {
+            version,
+            key,
+        })
     }
 
     /// Get the version number.

@@ -102,13 +102,17 @@ impl Hkdf for HkdfSha256 {
     fn extract_from_zero_ikm(&self, salt: Option<&[u8]>) -> Box<dyn HkdfExpander> {
         let salt = salt.unwrap_or(&[0u8; 32]);
         let (prk, _) = hkdf::Hkdf::<Sha256>::extract(Some(salt), &[0u8; 32]);
-        Box::new(HkdfSha256Expander { prk })
+        Box::new(HkdfSha256Expander {
+            prk,
+        })
     }
 
     fn extract_from_secret(&self, salt: Option<&[u8]>, secret: &[u8]) -> Box<dyn HkdfExpander> {
         let salt = salt.unwrap_or(&[0u8; 32]);
         let (prk, _) = hkdf::Hkdf::<Sha256>::extract(Some(salt), secret);
-        Box::new(HkdfSha256Expander { prk })
+        Box::new(HkdfSha256Expander {
+            prk,
+        })
     }
 
     fn expander_for_okm(&self, okm: &OkmBlock) -> Box<dyn HkdfExpander> {
@@ -170,13 +174,17 @@ impl Hkdf for HkdfSha384 {
     fn extract_from_zero_ikm(&self, salt: Option<&[u8]>) -> Box<dyn HkdfExpander> {
         let salt = salt.unwrap_or(&[0u8; 48]);
         let (prk, _) = hkdf::Hkdf::<Sha384>::extract(Some(salt), &[0u8; 48]);
-        Box::new(HkdfSha384Expander { prk })
+        Box::new(HkdfSha384Expander {
+            prk,
+        })
     }
 
     fn extract_from_secret(&self, salt: Option<&[u8]>, secret: &[u8]) -> Box<dyn HkdfExpander> {
         let salt = salt.unwrap_or(&[0u8; 48]);
         let (prk, _) = hkdf::Hkdf::<Sha384>::extract(Some(salt), secret);
-        Box::new(HkdfSha384Expander { prk })
+        Box::new(HkdfSha384Expander {
+            prk,
+        })
     }
 
     fn expander_for_okm(&self, okm: &OkmBlock) -> Box<dyn HkdfExpander> {

@@ -144,11 +144,8 @@ fn test_hash_chain() -> CrabResult<()> {
 #[test]
 fn test_multi_recipient_encryption() -> CrabResult<()> {
     // Simulate encrypting for multiple recipients
-    let recipients = vec![
-        X25519KeyPair::generate()?,
-        X25519KeyPair::generate()?,
-        X25519KeyPair::generate()?,
-    ];
+    let recipients =
+        vec![X25519KeyPair::generate()?, X25519KeyPair::generate()?, X25519KeyPair::generate()?];
 
     let sender = X25519KeyPair::generate()?;
     let message = b"Broadcast message";

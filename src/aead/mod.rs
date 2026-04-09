@@ -18,10 +18,7 @@ pub use chacha20poly1305::ChaCha20Poly1305;
 ///
 /// With the `serde-support` feature, this type can be serialized to JSON/TOML.
 #[derive(Clone, Debug, PartialEq)]
-#[cfg_attr(
-    feature = "serde-support",
-    derive(serde::Serialize, serde::Deserialize)
-)]
+#[cfg_attr(feature = "serde-support", derive(serde::Serialize, serde::Deserialize))]
 pub struct Ciphertext {
     /// Nonce/IV used for this encryption (12 bytes for AES-GCM and ChaCha20-Poly1305)
     #[cfg_attr(feature = "serde-support", serde(with = "serde_bytes_base64"))]

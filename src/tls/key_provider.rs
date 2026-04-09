@@ -220,7 +220,9 @@ impl Ed25519SigningKey {
         let key = ed25519_dalek::SigningKey::from_pkcs8_der(der).map_err(|_| {
             rustls::Error::General("failed to parse Ed25519 key from PKCS#8".into())
         })?;
-        Ok(Self { key })
+        Ok(Self {
+            key,
+        })
     }
 }
 
@@ -293,7 +295,9 @@ mod rsa_impl {
             let key = RsaPrivateKey::from_pkcs8_der(der).map_err(|_| {
                 rustls::Error::General("failed to parse RSA key from PKCS#8".into())
             })?;
-            Ok(Self { key })
+            Ok(Self {
+                key,
+            })
         }
 
         /// Parse an RSA key from PKCS#1 DER format.
@@ -302,7 +306,9 @@ mod rsa_impl {
             let key = RsaPrivateKey::from_pkcs1_der(der).map_err(|_| {
                 rustls::Error::General("failed to parse RSA key from PKCS#1".into())
             })?;
-            Ok(Self { key })
+            Ok(Self {
+                key,
+            })
         }
     }
 
