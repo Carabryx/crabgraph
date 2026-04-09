@@ -1,4 +1,4 @@
-# DotenvPP — rustfmt (stable `cargo fmt` compatible)
+# CrabGraph — rustfmt (stable `cargo fmt` compatible)
 # Run: cargo fmt --all
 
 edition = "2021"
