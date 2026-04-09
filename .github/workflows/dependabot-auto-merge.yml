@@ -24,7 +24,41 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - name: Enable auto-merge for Dependabot PR
+      - name: Merge green Dependabot PRs
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr merge ${{ github.event.pull_request.number }} --repo "$GH_REPO" --auto --squash --delete-branch
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          while true; do
+            checks_json="$(gh pr checks "$PR_NUMBER" --repo "$GH_REPO" --json name,bucket)"
+            relevant_checks="$(printf '%s' "$checks_json" | jq '[.[] | select(.name != "auto-merge")]')"
+
+            if [[ "$(printf '%s' "$relevant_checks" | jq 'length')" -eq 0 ]]; then
+              echo "No PR checks reported yet for #$PR_NUMBER, waiting..."
+              sleep 10
+              continue
+            fi
+
+            if printf '%s' "$relevant_checks" | jq -e 'any(.[]; .bucket == "pending")' > /dev/null; then
+              echo "Checks still pending for #$PR_NUMBER, waiting..."
+              sleep 10
+              continue
+            fi
+
+            if printf '%s' "$relevant_checks" | jq -e 'any(.[]; .bucket == "fail" or .bucket == "cancel")' > /dev/null; then
+              echo "Checks failed for #$PR_NUMBER; leaving PR open."
+              printf '%s\n' "$relevant_checks" | jq -r '.[] | "\(.name): \(.bucket)"'
+              exit 0
+            fi
+
+            echo "All checks passed for #$PR_NUMBER, merging."
+            gh pr merge "$PR_NUMBER" \
+              --repo "$GH_REPO" \
+              --squash \
+              --delete-branch \
+              --match-head-commit "$PR_HEAD_SHA"
+            exit 0
+          done
