@@ -58,7 +58,9 @@ impl ChaCha20Poly1305 {
         let cipher = ChaCha20Poly1305Cipher::new_from_slice(key)
             .map_err(|e| CrabError::key_error(format!("Invalid ChaCha20-Poly1305 key: {}", e)))?;
 
-        Ok(Self { cipher })
+        Ok(Self {
+            cipher,
+        })
     }
 
     /// Generates a random 32-byte key suitable for ChaCha20-Poly1305.

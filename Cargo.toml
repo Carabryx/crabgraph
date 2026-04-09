@@ -1,7 +1,7 @@
 [package]
 name = "crabgraph"
 version = "0.4.0-pre"
-authors = ["Raj Sarkar <ariajsarkar@gmail.com>"]
+authors = ["Ariaj Sarkar <ariajsarkar@gmail.com>"]
 edition = "2021"
 rust-version = "1.70"
 description = "A safe, ergonomic, high-performance cryptographic library for Rust built on audited primitives"

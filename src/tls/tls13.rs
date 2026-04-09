@@ -19,11 +19,8 @@ use rustls::{CipherSuite, SupportedCipherSuite, Tls13CipherSuite};
 /// 1. AES-256-GCM for maximum security
 /// 2. ChaCha20-Poly1305 for environments without AES-NI
 /// 3. AES-128-GCM for compatibility
-pub static ALL_TLS13_CIPHER_SUITES: &[&Tls13CipherSuite] = &[
-    TLS13_AES_256_GCM_SHA384,
-    TLS13_CHACHA20_POLY1305_SHA256,
-    TLS13_AES_128_GCM_SHA256,
-];
+pub static ALL_TLS13_CIPHER_SUITES: &[&Tls13CipherSuite] =
+    &[TLS13_AES_256_GCM_SHA384, TLS13_CHACHA20_POLY1305_SHA256, TLS13_AES_128_GCM_SHA256];
 
 /// All TLS 1.3 cipher suites as SupportedCipherSuite for CryptoProvider.
 pub static ALL_TLS13_SUITES: &[SupportedCipherSuite] = &[

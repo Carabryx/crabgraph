@@ -14,10 +14,7 @@ use rand_core::OsRng;
 ///
 /// With the `serde-support` feature, signatures can be serialized to/from JSON/TOML as base64 strings.
 #[derive(Clone, Debug, PartialEq)]
-#[cfg_attr(
-    feature = "serde-support",
-    derive(serde::Serialize, serde::Deserialize)
-)]
+#[cfg_attr(feature = "serde-support", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "serde-support", serde(transparent))]
 pub struct Ed25519Signature(
     #[cfg_attr(feature = "serde-support", serde(with = "serde_sig_bytes"))]
@@ -103,10 +100,7 @@ impl Ed25519Signature {
 ///
 /// With the `serde-support` feature, public keys can be serialized to/from JSON/TOML as base64 strings.
 #[derive(Clone, Debug, PartialEq)]
-#[cfg_attr(
-    feature = "serde-support",
-    derive(serde::Serialize, serde::Deserialize)
-)]
+#[cfg_attr(feature = "serde-support", derive(serde::Serialize, serde::Deserialize))]
 pub struct Ed25519PublicKey(
     #[cfg_attr(feature = "serde-support", serde(with = "serde_pub_key"))] VerifyingKey,
 );
@@ -211,7 +205,9 @@ impl Ed25519KeyPair {
     /// ```
     pub fn generate() -> CrabResult<Self> {
         let signing_key = SigningKey::generate(&mut OsRng);
-        Ok(Self { signing_key })
+        Ok(Self {
+            signing_key,
+        })
     }
 
     /// Creates a keypair from a 32-byte secret key.
@@ -230,7 +226,9 @@ impl Ed25519KeyPair {
         let signing_key =
             SigningKey::from_bytes(secret.try_into().expect("length already checked"));
 
-        Ok(Self { signing_key })
+        Ok(Self {
+            signing_key,
+        })
     }
 
     /// Returns the secret key bytes.
@@ -333,7 +331,9 @@ impl Ed25519KeyPair {
         let signing_key = SigningKey::from_pkcs8_der(der)
             .map_err(|e| CrabError::key_error(format!("Failed to decode PKCS#8 DER: {}", e)))?;
 
-        Ok(Self { signing_key })
+        Ok(Self {
+            signing_key,
+        })
     }
 
     /// Exports the keypair to PKCS#8 PEM format.
@@ -377,7 +377,9 @@ impl Ed25519KeyPair {
         let signing_key = SigningKey::from_pkcs8_pem(pem)
             .map_err(|e| CrabError::key_error(format!("Failed to decode PKCS#8 PEM: {}", e)))?;
 
-        Ok(Self { signing_key })
+        Ok(Self {
+            signing_key,
+        })
     }
 }
 

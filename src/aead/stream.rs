@@ -181,7 +181,9 @@ impl Aes256GcmStreamDecryptor {
         let aead = Aes256Gcm::new(key_array);
         let decryptor = DecryptorBE32::from_aead(aead, nonce_array);
 
-        Ok(Self { decryptor })
+        Ok(Self {
+            decryptor,
+        })
     }
 
     /// Decrypts the next chunk of data.
@@ -325,7 +327,9 @@ impl ChaCha20Poly1305StreamDecryptor {
         let aead = ChaCha20Poly1305Cipher::new(key_array);
         let decryptor = DecryptorBE32::from_aead(aead, nonce_array);
 
-        Ok(Self { decryptor })
+        Ok(Self {
+            decryptor,
+        })
     }
 
     /// Decrypts the next chunk of data.

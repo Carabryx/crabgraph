@@ -128,7 +128,9 @@ impl X25519KeyPair {
     /// ```
     pub fn generate() -> CrabResult<Self> {
         let secret = StaticSecret::random_from_rng(OsRng);
-        Ok(Self { secret })
+        Ok(Self {
+            secret,
+        })
     }
 
     /// Creates a keypair from a 32-byte secret key.
@@ -148,7 +150,9 @@ impl X25519KeyPair {
         key_bytes.copy_from_slice(secret);
         let secret = StaticSecret::from(key_bytes);
 
-        Ok(Self { secret })
+        Ok(Self {
+            secret,
+        })
     }
 
     /// Returns the secret key bytes.

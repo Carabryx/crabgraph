@@ -42,7 +42,9 @@ impl AesGcm128 {
         let cipher = Aes128Gcm::new_from_slice(key)
             .map_err(|e| CrabError::key_error(format!("Invalid AES-128 key: {}", e)))?;
 
-        Ok(Self { cipher })
+        Ok(Self {
+            cipher,
+        })
     }
 
     /// Generates a random 16-byte key suitable for AES-128-GCM.
@@ -172,7 +174,9 @@ impl AesGcm256 {
         let cipher = Aes256Gcm::new_from_slice(key)
             .map_err(|e| CrabError::key_error(format!("Invalid AES-256 key: {}", e)))?;
 
-        Ok(Self { cipher })
+        Ok(Self {
+            cipher,
+        })
     }
 
     /// Generates a random 32-byte key suitable for AES-256-GCM.

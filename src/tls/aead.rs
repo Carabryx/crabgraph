@@ -148,7 +148,10 @@ impl Tls13AeadAlgorithm for Aes128GcmAead {
         key: AeadKey,
         iv: Iv,
     ) -> Result<ConnectionTrafficSecrets, UnsupportedOperationError> {
-        Ok(ConnectionTrafficSecrets::Aes128Gcm { key, iv })
+        Ok(ConnectionTrafficSecrets::Aes128Gcm {
+            key,
+            iv,
+        })
     }
 }
 
@@ -180,7 +183,10 @@ impl Tls13AeadAlgorithm for Aes256GcmAead {
         key: AeadKey,
         iv: Iv,
     ) -> Result<ConnectionTrafficSecrets, UnsupportedOperationError> {
-        Ok(ConnectionTrafficSecrets::Aes256Gcm { key, iv })
+        Ok(ConnectionTrafficSecrets::Aes256Gcm {
+            key,
+            iv,
+        })
     }
 }
 
@@ -212,7 +218,10 @@ impl Tls13AeadAlgorithm for ChaCha20Poly1305Aead {
         key: AeadKey,
         iv: Iv,
     ) -> Result<ConnectionTrafficSecrets, UnsupportedOperationError> {
-        Ok(ConnectionTrafficSecrets::Chacha20Poly1305 { key, iv })
+        Ok(ConnectionTrafficSecrets::Chacha20Poly1305 {
+            key,
+            iv,
+        })
     }
 }
 

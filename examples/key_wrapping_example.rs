@@ -108,11 +108,7 @@ fn demo_multiple_sizes() -> CrabResult<()> {
     let kek256 = Kw256::generate_kek()?;
     let wrapper256 = Kw256::new(&kek256)?;
     let wrapped256 = wrapper256.wrap_key(&test_key)?;
-    println!(
-        "Kw256: Wrapped {} bytes → {} bytes (RECOMMENDED)",
-        test_key.len(),
-        wrapped256.len()
-    );
+    println!("Kw256: Wrapped {} bytes → {} bytes (RECOMMENDED)", test_key.len(), wrapped256.len());
 
     // Verify all unwrap correctly
     assert_eq!(wrapper128.unwrap_key(&wrapped128)?, test_key);
