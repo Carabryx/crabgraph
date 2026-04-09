@@ -52,7 +52,7 @@ rsa = { version = "0.9.8", optional = true, features = ["sha2"] }
 pkcs8 = { version = "0.10.2", features = ["pem", "alloc"] }
 
 # Random number generation
-getrandom = "0.3.4"
+getrandom = "0.4.2"
 rand_core = "0.6.4"  # Used for OsRng in asymmetric crypto modules
 
 # Secure memory handling
