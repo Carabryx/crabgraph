@@ -36,7 +36,7 @@ jobs:
           fi
       
       - name: Upload artifacts if crashes found
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always() && steps.check_artifacts.outputs.artifacts_found == 'true'
         with:
           name: fuzz-artifacts
