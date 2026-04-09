@@ -24,15 +24,7 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Wait for PR checks
+      - name: Enable auto-merge for Dependabot PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr checks ${{ github.event.pull_request.number }} --repo "$GH_REPO" --watch --interval 10
-
-      - name: Merge Dependabot PR
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr merge ${{ github.event.pull_request.number }} --repo "$GH_REPO" --squash --delete-branch
+        run: gh pr merge ${{ github.event.pull_request.number }} --repo "$GH_REPO" --auto --squash --delete-branch
