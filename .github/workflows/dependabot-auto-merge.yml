@@ -24,6 +24,9 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Wait for PR checks
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
