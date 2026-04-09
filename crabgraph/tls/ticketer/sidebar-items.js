@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["DEFAULT_LIFETIME_SECS","NONCE_SIZE","TAG_SIZE"],"struct":["AeadTicketer"]};

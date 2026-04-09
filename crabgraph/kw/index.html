@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="AES Key Wrap (AES-KW) implementation per RFC 3394."><title>crabgraph::kw - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="crabgraph" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.1 (e408947bf 2026-03-25)" data-channel="1.94.1" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../../static.files/storage-e2aeef58.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Module kw</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../crabgraph/index.html">crabgraph</a><span class="version">0.4.0-pre</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module kw</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#use-cases" title="Use Cases">Use Cases</a></li><li><a href="#security-properties" title="Security Properties">Security Properties</a></li><li><a href="#important-constraints" title="Important Constraints">Important Constraints</a></li><li><a href="#-security-warnings" title="⚠️ Security Warnings">⚠️ Security Warnings</a></li><li><a href="#examples" title="Examples">Examples</a><ul><li><a href="#basic-key-wrapping" title="Basic Key Wrapping">Basic Key Wrapping</a></li><li><a href="#with-hex-encoding-for-storage" title="With Hex Encoding for Storage">With Hex Encoding for Storage</a></li></ul></li></ul><h3><a href="#structs">Module Items</a></h3><ul class="block"><li><a href="#structs" title="Structs">Structs</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="../index.html">In crate crabgraph</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">crabgraph</a></div><h1>Module <span>kw</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/crabgraph/kw/mod.rs.html#1-840">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>AES Key Wrap (AES-KW) implementation per RFC 3394.</p>
+<p>AES Key Wrap is a specialized encryption mode designed specifically for
+encrypting cryptographic key material with a Key Encryption Key (KEK).</p>
+<h2 id="use-cases"><a class="doc-anchor" href="#use-cases">§</a>Use Cases</h2>
+<ul>
+<li><strong>Key Storage</strong>: Encrypting keys before storing them in databases</li>
+<li><strong>Key Distribution</strong>: Securely transmitting keys between parties</li>
+<li><strong>HSM Integration</strong>: Import/export keys to Hardware Security Modules</li>
+<li><strong>Key Backup</strong>: Protecting backup copies of cryptographic keys</li>
+</ul>
+<h2 id="security-properties"><a class="doc-anchor" href="#security-properties">§</a>Security Properties</h2>
+<ul>
+<li><strong>RFC 3394 Compliant</strong>: Industry standard for key wrapping</li>
+<li><strong>Integrity Protection</strong>: Built-in integrity check via IV</li>
+<li><strong>Deterministic</strong>: Same KEK + key = same wrapped output (no nonce)</li>
+<li><strong>AES-Based</strong>: Uses AES block cipher (128, 192, or 256-bit KEKs)</li>
+</ul>
+<h2 id="important-constraints"><a class="doc-anchor" href="#important-constraints">§</a>Important Constraints</h2>
+<ul>
+<li><strong>Input Size</strong>: Key to wrap must be at least 16 bytes (128 bits)</li>
+<li><strong>Alignment</strong>: Input must be a multiple of 8 bytes (64 bits)</li>
+<li><strong>Key Material Only</strong>: Designed for keys, not general-purpose data</li>
+<li><strong>No Confidentiality for Length</strong>: Wrapped key reveals approximate length</li>
+</ul>
+<h2 id="-security-warnings"><a class="doc-anchor" href="#-security-warnings">§</a>⚠️ Security Warnings</h2>
+<ol>
+<li>
+<p><strong>Deterministic Encryption</strong>: AES-KW produces the same output for the same
+input every time. This is intentional but means it doesn’t provide semantic
+security. Use AES-GCM for general data encryption.</p>
+</li>
+<li>
+<p><strong>KEK Protection</strong>: The Key Encryption Key (KEK) must be kept secure.
+Compromise of the KEK compromises all keys wrapped with it.</p>
+</li>
+<li>
+<p><strong>Not for Large Data</strong>: AES-KW is designed for small key material (16-256 bytes).
+For larger data, use AES-GCM or ChaCha20-Poly1305.</p>
+</li>
+<li>
+<p><strong>Padding Required</strong>: If your key is not a multiple of 8 bytes, use
+AES-KWP (Key Wrap with Padding) - not yet implemented.</p>
+</li>
+</ol>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h2><h3 id="basic-key-wrapping"><a class="doc-anchor" href="#basic-key-wrapping">§</a>Basic Key Wrapping</h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>crabgraph::{kw::{Kw128, Kw256}, CrabResult};
+
+<span class="kw">fn </span>example() -&gt; CrabResult&lt;()&gt; {
+    <span class="comment">// Generate a KEK (Key Encryption Key)
+    </span><span class="kw">let </span>kek = Kw256::generate_kek()<span class="question-mark">?</span>;
+    <span class="kw">let </span>wrapper = Kw256::new(<span class="kw-2">&amp;</span>kek)<span class="question-mark">?</span>;
+     
+    <span class="comment">// Key to protect (e.g., an AES-256 key)
+    </span><span class="kw">let </span>session_key = [<span class="number">0x42u8</span>; <span class="number">32</span>];
+     
+    <span class="comment">// Wrap the key
+    </span><span class="kw">let </span>wrapped = wrapper.wrap_key(<span class="kw-2">&amp;</span>session_key)<span class="question-mark">?</span>;
+    <span class="macro">println!</span>(<span class="string">"Wrapped key: {} bytes"</span>, wrapped.len());
+     
+    <span class="comment">// Unwrap to recover the original key
+    </span><span class="kw">let </span>unwrapped = wrapper.unwrap_key(<span class="kw-2">&amp;</span>wrapped)<span class="question-mark">?</span>;
+    <span class="macro">assert_eq!</span>(unwrapped, session_key);
+     
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div><h3 id="with-hex-encoding-for-storage"><a class="doc-anchor" href="#with-hex-encoding-for-storage">§</a>With Hex Encoding for Storage</h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>crabgraph::{kw::Kw256, encoding::hex_encode, CrabResult};
+
+<span class="kw">fn </span>storage_example() -&gt; CrabResult&lt;()&gt; {
+    <span class="kw">let </span>kek = Kw256::generate_kek()<span class="question-mark">?</span>;
+    <span class="kw">let </span>wrapper = Kw256::new(<span class="kw-2">&amp;</span>kek)<span class="question-mark">?</span>;
+     
+    <span class="kw">let </span>key_to_store = [<span class="number">0x01u8</span>; <span class="number">32</span>];
+    <span class="kw">let </span>wrapped = wrapper.wrap_key(<span class="kw-2">&amp;</span>key_to_store)<span class="question-mark">?</span>;
+     
+    <span class="comment">// Store as hex string in database
+    </span><span class="kw">let </span>hex_wrapped = hex_encode(<span class="kw-2">&amp;</span>wrapped);
+    <span class="macro">println!</span>(<span class="string">"Store in DB: {}"</span>, hex_wrapped);
+     
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Kw128.html" title="struct crabgraph::kw::Kw128">Kw128</a></dt><dd>AES-128 Key Wrap cipher.</dd><dt><a class="struct" href="struct.Kw192.html" title="struct crabgraph::kw::Kw192">Kw192</a></dt><dd>AES-192 Key Wrap cipher.</dd><dt><a class="struct" href="struct.Kw256.html" title="struct crabgraph::kw::Kw256">Kw256</a></dt><dd>AES-256 Key Wrap cipher.</dd></dl></section></div></main></body></html>

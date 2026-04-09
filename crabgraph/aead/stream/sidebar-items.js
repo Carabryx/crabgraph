@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["DEFAULT_CHUNK_SIZE","MAX_CHUNK_SIZE"],"struct":["Aes256GcmStreamDecryptor","Aes256GcmStreamEncryptor","ChaCha20Poly1305StreamDecryptor","ChaCha20Poly1305StreamEncryptor"],"type":["AesStreamNonce","ChaChaStreamNonce"]};

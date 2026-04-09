@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Streaming AEAD encryption for large files."><title>crabgraph::aead::stream - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="crabgraph" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.1 (e408947bf 2026-03-25)" data-channel="1.94.1" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../../../static.files/storage-e2aeef58.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Module stream</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../crabgraph/index.html">crabgraph</a><span class="version">0.4.0-pre</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module stream</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#security-notes" title="Security Notes">Security Notes</a></li><li><a href="#example" title="Example">Example</a></li></ul><h3><a href="#structs">Module Items</a></h3><ul class="block"><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#constants" title="Constants">Constants</a></li><li><a href="#types" title="Type Aliases">Type Aliases</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="../index.html">In crabgraph::<wbr>aead</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../../index.html">crabgraph</a>::<wbr><a href="../index.html">aead</a></div><h1>Module <span>stream</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/crabgraph/aead/stream.rs.html#1-527">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Streaming AEAD encryption for large files.</p>
+<p>This module provides streaming encryption and decryption capabilities for processing
+large files that don’t fit in memory. It uses the STREAM construction from
+<a href="https://eprint.iacr.org/2015/189.pdf">Online Authenticated-Encryption and its Nonce-Reuse Misuse-Resistance</a>
+which provides nonce-reuse resistance.</p>
+<h2 id="security-notes"><a class="doc-anchor" href="#security-notes">§</a>Security Notes</h2>
+<ul>
+<li>Each chunk is independently authenticated</li>
+<li>The stream uses a nonce derivation function to ensure unique nonces per chunk</li>
+<li>The final chunk includes authentication of the entire stream</li>
+<li>Maximum file size depends on chunk counter size (default: 2^32 chunks)</li>
+</ul>
+<h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>crabgraph::aead::stream::{Aes256GcmStreamEncryptor, Aes256GcmStreamDecryptor};
+<span class="kw">use </span>crabgraph::CrabResult;
+
+<span class="comment">// Generate a 32-byte key
+</span><span class="kw">let </span>key = crabgraph::rand::secure_bytes(<span class="number">32</span>)<span class="question-mark">?</span>;
+
+<span class="comment">// Encrypt data in chunks
+</span><span class="kw">let </span>plaintext = <span class="macro">vec!</span>[<span class="string">b"Hello, world! "</span>.repeat(<span class="number">1000</span>)];
+<span class="kw">let </span><span class="kw-2">mut </span>encryptor = Aes256GcmStreamEncryptor::new(<span class="kw-2">&amp;</span>key)<span class="question-mark">?</span>;
+<span class="kw">let </span>nonce = encryptor.nonce();
+<span class="kw">let </span><span class="kw-2">mut </span>ciphertext_chunks = Vec::new();
+
+<span class="comment">// Encrypt all but the last chunk
+</span><span class="kw">for </span>chunk <span class="kw">in </span><span class="kw-2">&amp;</span>plaintext[..plaintext.len() - <span class="number">1</span>] {
+    ciphertext_chunks.push(encryptor.encrypt_next(chunk)<span class="question-mark">?</span>);
+}
+<span class="comment">// Encrypt the last chunk (this consumes the encryptor)
+</span><span class="kw">let </span>last_chunk = <span class="kw-2">&amp;</span>plaintext[plaintext.len() - <span class="number">1</span>];
+ciphertext_chunks.push(encryptor.encrypt_last(last_chunk)<span class="question-mark">?</span>);
+
+<span class="comment">// Decrypt data in chunks
+</span><span class="kw">let </span><span class="kw-2">mut </span>decryptor = Aes256GcmStreamDecryptor::from_nonce(<span class="kw-2">&amp;</span>key, <span class="kw-2">&amp;</span>nonce)<span class="question-mark">?</span>;
+<span class="kw">let </span><span class="kw-2">mut </span>decrypted = Vec::new();
+
+<span class="comment">// Decrypt all but the last chunk
+</span><span class="kw">for </span>chunk <span class="kw">in </span><span class="kw-2">&amp;</span>ciphertext_chunks[..ciphertext_chunks.len() - <span class="number">1</span>] {
+    decrypted.extend_from_slice(<span class="kw-2">&amp;</span>decryptor.decrypt_next(chunk)<span class="question-mark">?</span>);
+}
+<span class="comment">// Decrypt the last chunk (this consumes the decryptor)
+</span><span class="kw">let </span>last_encrypted = <span class="kw-2">&amp;</span>ciphertext_chunks[ciphertext_chunks.len() - <span class="number">1</span>];
+decrypted.extend_from_slice(<span class="kw-2">&amp;</span>decryptor.decrypt_last(last_encrypted)<span class="question-mark">?</span>);
+
+<span class="comment">// Verify the decrypted data matches the first (and only) chunk in plaintext
+</span><span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>decrypted, plaintext[<span class="number">0</span>].as_slice());</code></pre></div></div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Aes256GcmStreamDecryptor.html" title="struct crabgraph::aead::stream::Aes256GcmStreamDecryptor">Aes256<wbr>GcmStream<wbr>Decryptor</a></dt><dd>Streaming decryptor for AES-256-GCM.</dd><dt><a class="struct" href="struct.Aes256GcmStreamEncryptor.html" title="struct crabgraph::aead::stream::Aes256GcmStreamEncryptor">Aes256<wbr>GcmStream<wbr>Encryptor</a></dt><dd>Streaming encryptor for AES-256-GCM.</dd><dt><a class="struct" href="struct.ChaCha20Poly1305StreamDecryptor.html" title="struct crabgraph::aead::stream::ChaCha20Poly1305StreamDecryptor">ChaCha20<wbr>Poly1305<wbr>Stream<wbr>Decryptor</a></dt><dd>Streaming decryptor for ChaCha20-Poly1305.</dd><dt><a class="struct" href="struct.ChaCha20Poly1305StreamEncryptor.html" title="struct crabgraph::aead::stream::ChaCha20Poly1305StreamEncryptor">ChaCha20<wbr>Poly1305<wbr>Stream<wbr>Encryptor</a></dt><dd>Streaming encryptor for ChaCha20-Poly1305.</dd></dl><h2 id="constants" class="section-header">Constants<a href="#constants" class="anchor">§</a></h2><dl class="item-table"><dt><a class="constant" href="constant.DEFAULT_CHUNK_SIZE.html" title="constant crabgraph::aead::stream::DEFAULT_CHUNK_SIZE">DEFAULT_<wbr>CHUNK_<wbr>SIZE</a></dt><dd>Default chunk size for streaming operations (64 KB)</dd><dt><a class="constant" href="constant.MAX_CHUNK_SIZE.html" title="constant crabgraph::aead::stream::MAX_CHUNK_SIZE">MAX_<wbr>CHUNK_<wbr>SIZE</a></dt><dd>Maximum chunk size for streaming operations (1 MB)</dd></dl><h2 id="types" class="section-header">Type Aliases<a href="#types" class="anchor">§</a></h2><dl class="item-table"><dt><a class="type" href="type.AesStreamNonce.html" title="type crabgraph::aead::stream::AesStreamNonce">AesStream<wbr>Nonce</a><span title="Restricted Visibility">&nbsp;🔒</span> </dt><dt><a class="type" href="type.ChaChaStreamNonce.html" title="type crabgraph::aead::stream::ChaChaStreamNonce">ChaCha<wbr>Stream<wbr>Nonce</a><span title="Restricted Visibility">&nbsp;🔒</span> </dt></dl></section></div></main></body></html>

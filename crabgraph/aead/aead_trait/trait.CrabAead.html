@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Trait for Authenticated Encryption with Associated Data (AEAD) operations."><title>CrabAead in crabgraph::aead::aead_trait - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-77263533.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="crabgraph" data-themes="" data-resource-suffix="" data-rustdoc-version="1.94.1 (e408947bf 2026-03-25)" data-channel="1.94.1" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-c38705f0.js" ><script src="../../../static.files/storage-e2aeef58.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../../static.files/main-7bab91a1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-ffcac47a.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc trait"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">CrabAead</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../crabgraph/index.html">crabgraph</a><span class="version">0.4.0-pre</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Crab<wbr>Aead</a></h2><h3><a href="#required-methods">Required Methods</a></h3><ul class="block"><li><a href="#tymethod.decrypt" title="decrypt">decrypt</a></li><li><a href="#tymethod.encrypt" title="encrypt">encrypt</a></li><li><a href="#tymethod.encrypt_with_nonce" title="encrypt_with_nonce">encrypt_with_nonce</a></li></ul><h3><a href="#implementors">Implementors</a></h3></section><div id="rustdoc-modnav"><h2><a href="index.html">In crabgraph::<wbr>aead::<wbr>aead_<wbr>trait</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../../index.html">crabgraph</a>::<wbr><a href="../index.html">aead</a>::<wbr><a href="index.html">aead_trait</a></div><h1>Trait <span class="trait">Crab<wbr>Aead</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/crabgraph/aead/aead_trait.rs.html#13-66">Source</a> </span></div><pre class="rust item-decl"><code>pub trait CrabAead {
+    // Required methods
+    fn <a href="#tymethod.encrypt" class="fn">encrypt</a>(
+        &amp;self,
+        plaintext: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>],
+        associated_data: <a class="enum" href="https://doc.rust-lang.org/1.94.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>]&gt;,
+    ) -&gt; <a class="type" href="../../errors/type.CrabResult.html" title="type crabgraph::errors::CrabResult">CrabResult</a>&lt;<a class="struct" href="../struct.Ciphertext.html" title="struct crabgraph::aead::Ciphertext">Ciphertext</a>&gt;;
+<span class="item-spacer"></span>    fn <a href="#tymethod.decrypt" class="fn">decrypt</a>(
+        &amp;self,
+        ciphertext: &amp;<a class="struct" href="../struct.Ciphertext.html" title="struct crabgraph::aead::Ciphertext">Ciphertext</a>,
+        associated_data: <a class="enum" href="https://doc.rust-lang.org/1.94.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>]&gt;,
+    ) -&gt; <a class="type" href="../../errors/type.CrabResult.html" title="type crabgraph::errors::CrabResult">CrabResult</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.94.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>&gt;&gt;;
+<span class="item-spacer"></span>    fn <a href="#tymethod.encrypt_with_nonce" class="fn">encrypt_with_nonce</a>(
+        &amp;self,
+        plaintext: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>],
+        nonce: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>],
+        associated_data: <a class="enum" href="https://doc.rust-lang.org/1.94.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>]&gt;,
+    ) -&gt; <a class="type" href="../../errors/type.CrabResult.html" title="type crabgraph::errors::CrabResult">CrabResult</a>&lt;<a class="struct" href="../struct.Ciphertext.html" title="struct crabgraph::aead::Ciphertext">Ciphertext</a>&gt;;
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Trait for Authenticated Encryption with Associated Data (AEAD) operations.</p>
+<p>This trait provides a uniform interface for all AEAD ciphers in CrabGraph.
+Implementations guarantee:</p>
+<ul>
+<li>Confidentiality (ciphertext hides plaintext)</li>
+<li>Authenticity (detects tampering)</li>
+<li>Associated data authentication (binds public metadata to ciphertext)</li>
+</ul>
+</div></details><h2 id="required-methods" class="section-header">Required Methods<a href="#required-methods" class="anchor">§</a></h2><div class="methods"><details class="toggle method-toggle" open><summary><section id="tymethod.encrypt" class="method"><a class="src rightside" href="../../../src/crabgraph/aead/aead_trait.rs.html#27">Source</a><h4 class="code-header">fn <a href="#tymethod.encrypt" class="fn">encrypt</a>(
+    &amp;self,
+    plaintext: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>],
+    associated_data: <a class="enum" href="https://doc.rust-lang.org/1.94.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>]&gt;,
+) -&gt; <a class="type" href="../../errors/type.CrabResult.html" title="type crabgraph::errors::CrabResult">CrabResult</a>&lt;<a class="struct" href="../struct.Ciphertext.html" title="struct crabgraph::aead::Ciphertext">Ciphertext</a>&gt;</h4></section></summary><div class="docblock"><p>Encrypts plaintext with optional associated data.</p>
+<h5 id="arguments"><a class="doc-anchor" href="#arguments">§</a>Arguments</h5>
+<ul>
+<li><code>plaintext</code> - Data to encrypt</li>
+<li><code>associated_data</code> - Optional public data to authenticate (not encrypted)</li>
+</ul>
+<h5 id="returns"><a class="doc-anchor" href="#returns">§</a>Returns</h5>
+<p><code>Ciphertext</code> containing nonce, encrypted data, and authentication tag</p>
+<h5 id="security"><a class="doc-anchor" href="#security">§</a>Security</h5>
+<ul>
+<li>Generates a random nonce automatically</li>
+<li>Never reuses nonces with the same key</li>
+<li>Produces a 16-byte authentication tag</li>
+</ul>
+</div></details><details class="toggle method-toggle" open><summary><section id="tymethod.decrypt" class="method"><a class="src rightside" href="../../../src/crabgraph/aead/aead_trait.rs.html#43-47">Source</a><h4 class="code-header">fn <a href="#tymethod.decrypt" class="fn">decrypt</a>(
+    &amp;self,
+    ciphertext: &amp;<a class="struct" href="../struct.Ciphertext.html" title="struct crabgraph::aead::Ciphertext">Ciphertext</a>,
+    associated_data: <a class="enum" href="https://doc.rust-lang.org/1.94.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>]&gt;,
+) -&gt; <a class="type" href="../../errors/type.CrabResult.html" title="type crabgraph::errors::CrabResult">CrabResult</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.94.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>Decrypts ciphertext with optional associated data.</p>
+<h5 id="arguments-1"><a class="doc-anchor" href="#arguments-1">§</a>Arguments</h5>
+<ul>
+<li><code>ciphertext</code> - Encrypted data with nonce and tag</li>
+<li><code>associated_data</code> - Optional public data (must match encryption)</li>
+</ul>
+<h5 id="returns-1"><a class="doc-anchor" href="#returns-1">§</a>Returns</h5>
+<p>Decrypted plaintext</p>
+<h5 id="errors"><a class="doc-anchor" href="#errors">§</a>Errors</h5>
+<p>Returns <code>CrabError::AuthenticationFailed</code> if:</p>
+<ul>
+<li>The authentication tag is invalid</li>
+<li>The ciphertext was tampered with</li>
+<li>The associated data doesn’t match</li>
+</ul>
+</div></details><details class="toggle method-toggle" open><summary><section id="tymethod.encrypt_with_nonce" class="method"><a class="src rightside" href="../../../src/crabgraph/aead/aead_trait.rs.html#60-65">Source</a><h4 class="code-header">fn <a href="#tymethod.encrypt_with_nonce" class="fn">encrypt_with_nonce</a>(
+    &amp;self,
+    plaintext: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>],
+    nonce: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>],
+    associated_data: <a class="enum" href="https://doc.rust-lang.org/1.94.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;[<a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.u8.html">u8</a>]&gt;,
+) -&gt; <a class="type" href="../../errors/type.CrabResult.html" title="type crabgraph::errors::CrabResult">CrabResult</a>&lt;<a class="struct" href="../struct.Ciphertext.html" title="struct crabgraph::aead::Ciphertext">Ciphertext</a>&gt;</h4></section></summary><div class="docblock"><p>Encrypts plaintext with an explicit nonce (advanced use only).</p>
+<h5 id="safety"><a class="doc-anchor" href="#safety">§</a>Safety</h5>
+<p><strong>WARNING</strong>: Nonce reuse with the same key is catastrophic for security.
+Only use this if you have a robust nonce management strategy.
+Prefer <code>encrypt()</code> which generates random nonces.</p>
+<h5 id="arguments-2"><a class="doc-anchor" href="#arguments-2">§</a>Arguments</h5>
+<ul>
+<li><code>plaintext</code> - Data to encrypt</li>
+<li><code>nonce</code> - Unique nonce (must never repeat for this key)</li>
+<li><code>associated_data</code> - Optional public data to authenticate</li>
+</ul>
+</div></details></div><h2 id="implementors" class="section-header">Implementors<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"><div class="negative-marker"></div><section id="impl-CrabAead-for-AesGcm128" class="impl"><a class="src rightside" href="../../../src/crabgraph/aead/aes_gcm.rs.html#70-142">Source</a><a href="#impl-CrabAead-for-AesGcm128" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="trait.CrabAead.html" title="trait crabgraph::aead::aead_trait::CrabAead">CrabAead</a> for <a class="struct" href="../aes_gcm/struct.AesGcm128.html" title="struct crabgraph::aead::aes_gcm::AesGcm128">AesGcm128</a></h3></section><section id="impl-CrabAead-for-AesGcm256" class="impl"><a class="src rightside" href="../../../src/crabgraph/aead/aes_gcm.rs.html#202-274">Source</a><a href="#impl-CrabAead-for-AesGcm256" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="trait.CrabAead.html" title="trait crabgraph::aead::aead_trait::CrabAead">CrabAead</a> for <a class="struct" href="../aes_gcm/struct.AesGcm256.html" title="struct crabgraph::aead::aes_gcm::AesGcm256">AesGcm256</a></h3></section><section id="impl-CrabAead-for-ChaCha20Poly1305" class="impl"><a class="src rightside" href="../../../src/crabgraph/aead/chacha20poly1305.rs.html#86-158">Source</a><a href="#impl-CrabAead-for-ChaCha20Poly1305" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="trait.CrabAead.html" title="trait crabgraph::aead::aead_trait::CrabAead">CrabAead</a> for <a class="struct" href="../chacha20poly1305/struct.ChaCha20Poly1305.html" title="struct crabgraph::aead::chacha20poly1305::ChaCha20Poly1305">ChaCha20Poly1305</a></h3></section></div><script src="../../../trait.impl/crabgraph/aead/aead_trait/trait.CrabAead.js" async></script></section></div></main></body></html>

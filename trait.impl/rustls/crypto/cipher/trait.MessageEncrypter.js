@@ -1,0 +1,9 @@
+(function() {
+    const implementors = Object.fromEntries([["crabgraph",[["impl MessageEncrypter for <a class=\"struct\" href=\"crabgraph/tls/aead/struct.Tls12ChaChaEncrypter.html\" title=\"struct crabgraph::tls::aead::Tls12ChaChaEncrypter\">Tls12ChaChaEncrypter</a>",0],["impl MessageEncrypter for <a class=\"struct\" href=\"crabgraph/tls/aead/struct.Tls13ChaChaEncrypter.html\" title=\"struct crabgraph::tls::aead::Tls13ChaChaEncrypter\">Tls13ChaChaEncrypter</a>",0],["impl&lt;C: AeadInPlace + <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.1/core/marker/trait.Send.html\" title=\"trait core::marker::Send\">Send</a> + <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.1/core/marker/trait.Sync.html\" title=\"trait core::marker::Sync\">Sync</a>&gt; MessageEncrypter for <a class=\"struct\" href=\"crabgraph/tls/aead/struct.Tls12GcmEncrypter.html\" title=\"struct crabgraph::tls::aead::Tls12GcmEncrypter\">Tls12GcmEncrypter</a>&lt;C&gt;",0],["impl&lt;C: AeadInPlace + <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.1/core/marker/trait.Send.html\" title=\"trait core::marker::Send\">Send</a> + <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.1/core/marker/trait.Sync.html\" title=\"trait core::marker::Sync\">Sync</a>&gt; MessageEncrypter for <a class=\"struct\" href=\"crabgraph/tls/aead/struct.Tls13Encrypter.html\" title=\"struct crabgraph::tls::aead::Tls13Encrypter\">Tls13Encrypter</a>&lt;C&gt;",0]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":59,"fragment_lengths":[1382]}
