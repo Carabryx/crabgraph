@@ -84,7 +84,7 @@ const-oid = { version = "0.9", optional = true }
 rand = { version = "0.8", optional = true }
 
 [dev-dependencies]
-criterion = { version = "0.7.0", features = ["html_reports"] }
+criterion = { version = "0.8.2", features = ["html_reports"] }
 proptest = "1.9.0"
 quickcheck = "1.0.3"
 hex-literal = "1.1.0"
