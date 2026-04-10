@@ -53,7 +53,7 @@ pkcs8 = { version = "0.10.2", features = ["pem", "alloc"] }
 
 # Random number generation
 getrandom = "0.4.2"
-rand_core = "0.6.4"  # Used for OsRng in asymmetric crypto modules
+rand_core = "0.10.0"  # Used for OsRng in asymmetric crypto modules
 
 # Secure memory handling
 zeroize = { version = "1.8.2", features = ["derive"] }
