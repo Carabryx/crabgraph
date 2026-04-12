@@ -43,7 +43,7 @@ blake2 = { version = "0.10.6", optional = true }
 blake3 = { version = "1.8.2", optional = true }
 
 # Message Authentication Codes
-hmac = "0.12.1"
+hmac = "0.13.0"
 
 # Asymmetric cryptography
 ed25519-dalek = { version = "2.2", features = ["rand_core", "pkcs8", "pem"] }
