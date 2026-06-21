@@ -80,7 +80,7 @@ p256 = { version = "0.13", default-features = false, features = ["ecdh", "ecdsa"
 p384 = { version = "0.13", default-features = false, features = ["ecdh", "ecdsa", "std", "pkcs8", "pem"], optional = true }
 ecdsa = { version = "0.16", default-features = false, features = ["signing", "verifying", "std", "der"], optional = true }
 digest = { version = "0.10", optional = true }
-const-oid = { version = "0.9", optional = true }
+const-oid = { version = "0.10", optional = true }
 rand = { version = "0.8", optional = true }
 
 [dev-dependencies]
