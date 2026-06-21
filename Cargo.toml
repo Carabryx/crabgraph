@@ -34,7 +34,7 @@ aes-kw = "0.2.1"
 # Key derivation functions
 pbkdf2 = { version = "0.12.2", features = ["simple"] }
 argon2 = { version = "0.5.3", features = ["std"] }
-hkdf = "0.12.4"
+hkdf = "0.13.0"
 
 # Hashing algorithms
 sha2 = { version = "0.10.9", features = ["oid"] }
